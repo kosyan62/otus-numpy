@@ -46,7 +46,10 @@ class LogisticRegression:
             # Hint: Use np.random.choice to generate indices. Sampling with         #
             # replacement is faster than sampling without replacement.              #
             #########################################################################
-
+            indices = np.random.choice(X.shape[0], batch_size)
+            X_batch = X[indices]
+            y_batch = y[indices]
+            # print(it)
 
             #########################################################################
             #                       END OF YOUR CODE                                #
@@ -61,6 +64,7 @@ class LogisticRegression:
             # Update the weights using the gradient and the learning rate.          #
             #########################################################################
 
+            self.w = self.w - gradW * learning_rate
 
             #########################################################################
             #                       END OF YOUR CODE                                #
@@ -92,7 +96,10 @@ class LogisticRegression:
         # Hint: It might be helpful to use np.vstack and np.sum                   #
         ###########################################################################
 
-
+        z = X @ self.w
+        p1 = 1/(1 + np.exp(-z))
+        p0 = 1 - p1
+        y_proba = np.vstack([p0, p1]).T
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -117,7 +124,7 @@ class LogisticRegression:
         # Implement this method. Store the predicted labels in y_pred.            #
         ###########################################################################
         y_proba = self.predict_proba(X, append_bias=True)
-        y_pred = ...
+        y_pred = np.argmax(y_proba, 1)
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
