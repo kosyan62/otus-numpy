@@ -144,16 +144,17 @@ class LogisticRegression:
         dw = np.zeros_like(self.w)  # initialize the gradient as zero
         loss = 0
         # Compute loss and gradient. Your code should not contain python loops.
-
-
+        z = X_batch @ self.w
+        p = 1/(1 + np.exp(-z))
         # Right now the loss is a sum over all training examples, but we want it
         # to be an average instead so we divide by num_train.
         # Note that the same thing must be done with gradient.
-
+        losses = -(y_batch * np.log(p) + (1 - y_batch) * np.log(1 - p))
+        loss = np.mean(losses)
+        dw = (X_batch.T @ (p - y_batch)) / X_batch.shape[0]
 
         # Add regularization to the loss and gradient.
         # Note that you have to exclude bias term in regularization.
-
 
         return loss, dw
 
